@@ -1,0 +1,11 @@
+Listeners are the things responsible for managing inputs.
+In this case, GLFW offers support for a mouse, a keyboard or a controller, and you initialize them
+by using the methods
+
+glfwSet___Callback(glfwWindow, Class::methodForCallback).
+
+For the mouse and the keyboard, actions are called callbacks and are automatically called
+when said action happens.
+For the controller, it has callback only for the connection of the controller and the rest is stored in
+buffers for the buttons and the axes.
+For callbacks (actions) examples, go to https://www.glfw.org/docs/3.3/input_guide.html

@@ -1,0 +1,9 @@
+Textures are .png files that are used to color a 3d model.
+Models have texture coordinates, which maps each 3d point to a 2d point on a texture.
+This allows to kind of wrap a texture on a 3d model.
+
+To load a texture to OpenGL, you first generate it and bind it, and then by using the different
+OpenGL texture parameter methods, you can assign different properties to the textures like how it fills
+space or things like mipmapping and anisotropic filtering, which are ways to fix to problem of far away textures.
+
+To then use them in shaders, they are considered sampler2D in GLSL and you load them like any other uniform variable.

@@ -1,0 +1,17 @@
+The Camera and the Projection are some of the most important things to understand in 3d graphics.
+They are all applied as matrices, which are mathematical tools that can modify vectors in many different ways when
+multiplied with them. They are mainly used to change from a space to another.
+
+Every model starts as an OBJ file, where the center of the universe is most likely the center of the model. This is
+called Model Space. Then, with properties like it's orientation and it's position, you construct a Model Matrix,
+which when applied, changes the model from Model Space to World Space. This means that center of the universe is now
+the world space (0, 0, 0). You then apply the View Matrix, which is obtained with the camera position and orientation,
+which changes the space to the View Space. In 3d rendering, the camera is completely fictional and the View Matrix
+applied actually shifts the center of the universe to the position of the camera, which means that what actually
+happens is that the world is shifted in the opposite direction of the camera position. After the View Space, the world
+is positioned just how the camera would see the world and so the final matrix is applied, the Projection Matrix,
+which places the space in Screen Space. The screen space has the coordinate system used by OpenGL to render stuff.
+The x and y coordinates that are between -1 and 1 will be rendered to the screen and the two other coordinates have
+special uses. The z coordinate is used for z-Buffering, which solves the problem of rendering things on top of each
+other and the w coordinate has the original value of the z coordinate and is used in the case of a perspective
+projection to scale down far away objects.

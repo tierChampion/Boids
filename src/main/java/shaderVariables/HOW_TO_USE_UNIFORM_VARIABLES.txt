@@ -1,0 +1,5 @@
+There exist three types of GLSL variables: in, out and uniform
+in and out variables come from the data in VBOs and are unique for each shape that passes in the shader
+
+Uniform variables are different and are unique for the program regardless of the VBO.
+They usually are things like textures or matrices or data related to the environment.

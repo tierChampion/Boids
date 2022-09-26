@@ -1,0 +1,13 @@
+Shaders are the programs used for coloring and other visual effects.
+They are effectively the way to communicate with the GPU be it to draw or make complex calculation faster.
+
+There exist many types of shaders: Vertex (MANDATORY, where you convert the position in the world to screen coordinates),
+Fragment (MANDATORY, where you deal with the color of an object), Geometry (where you play with the geometry of shapes,
+you can change where they are or even add new shapes) and Compute (an all-purpose shader where you can make a lot of
+calculation fast, since it enables you to use many threads to make operations in parallel)
+
+For any shader, you first assign a pointer and place the source code in that pointer. You then compile it and it
+is ready for use.
+You then add all your shaders to one shader program, which puts all these shaders back-to-back, ready for rendering.
+Before rendering, you bind the shader program you want to use, and it will be used in that rendering.
+After that rendering, you then have to unbind it to maybe use another shader program.

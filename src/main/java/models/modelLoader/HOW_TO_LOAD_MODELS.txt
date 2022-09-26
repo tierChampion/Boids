@@ -1,0 +1,11 @@
+In OpenGL, the most commonly used format to store information on 3d models is the .obj format.
+An OBJ file can be obtained by making a model in blender, and then exporting it as an obj file, with some important
+settings enables. First, OpenGL only works with triangle mesh, so you have to click the triangle faces option, and also,
+for more functionality, you also have to click the include face normals and include texture coordinates.
+
+In an OBJ file, you first see basic useless info on the model and then lines with the prefix v, vt, vn and f.
+They all stand for a specific type of data: vertex position, texture coordinates, vertex normal and face indices.
+To load that file in OpenGL, you read the file and create a list of vertices with the specified position, texture and
+normal in the f lines. The vertex are then already ordered properly, so the indices are only in increasing order.
+You then put the vertex data in a vbo (... , xPos, yPos, zPos, xTex, yTex, xNorm, yNorm, zNorm, ...), and then the
+model is loaded! Simply create a render model with the path of the OBJ file.

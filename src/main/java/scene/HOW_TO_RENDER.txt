@@ -1,0 +1,9 @@
+Rendering with OpenGL is pretty complicated but is simplified by subdividing the process.
+First, you need a shader program and before rendering, you must load the values to the different uniform variables.
+Right after, you then bind the Vao as well your Vertex attributes, in this case, positions, texture coordinates and
+vertex normals.
+
+Then, you render with glDrawElements and the shader program will be applied to the Vao.
+After rendering, you unbind the Vao and Vertex attributes to prepare to render the next model.
+
+
