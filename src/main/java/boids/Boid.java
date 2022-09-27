@@ -51,7 +51,7 @@ public class Boid extends RenderModel {
             float reflectivity,
             float viewRadius,
             float avoidRadius) {
-        super(new File("baseBoid.obj", File.OBJ_FILE), textureFile, shineDamper, reflectivity);
+        super(new File("pyramid.obj", File.OBJ_FILE), textureFile, shineDamper, reflectivity);
         this.position = new Vector3f();
         this.velocity = new Vector3f();
         this.viewRadius = viewRadius;

@@ -70,7 +70,7 @@ public class BoidScene extends Scene {
                 ALIGN_FACTOR, COHESION_FACTOR, AVOID_FACTOR);
         for (int i = 0; i < BOID_COUNT; i++) {
             super.models.add(new Boid(new File("testTexture.png", File.TEXTURE_FILE),
-                    0.9f, 0.4f, 8f, 3f));
+                    0.0f, 0.0f, 8f, 3f));
             super.models.get(i).placeRandomlyInWorld();
         }
 
@@ -125,6 +125,11 @@ public class BoidScene extends Scene {
         if (JoyStickListener.getButtonPress(GLFW_GAMEPAD_BUTTON_B) || KeyListener.isKeyPressed(GLFW_KEY_DOWN)) {
             Camera.move(1);
         }
+
+        ///////////////////////////////////////////////
+        // JOYSTICKS / MOUSE                         //
+        // HAVE A MINIMUM GIVE TO REMOVE DEAD-INPUTS //
+        ///////////////////////////////////////////////
         if (Math.abs(JoyStickListener.getAxis(GLFW_GAMEPAD_AXIS_LEFT_X)) > 0.1) {
             Camera.changeYaw(-JoyStickListener.getAxis(GLFW_GAMEPAD_AXIS_LEFT_X) / 10);
 

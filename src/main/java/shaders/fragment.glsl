@@ -40,7 +40,7 @@ void main() {
     vec4 textureColor = texture(modelTexture, passTextureCoordinates);
     vec4 diffuseColor = vec4(vec3(diffuse), 1.0);
     vec4 specularColor = vec4(vec3(specular), 1.0);
-    // Mix them to get final color
-    outColor = diffuseColor * textureColor + specularColor;
+    // Mix them to get final color with ambiant
+    outColor = diffuseColor * textureColor + specularColor + vec4(vec3(0.5), 1.0);
 
 }
