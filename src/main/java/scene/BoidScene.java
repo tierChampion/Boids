@@ -5,6 +5,7 @@ import dataStructures.spacial.OcTree;
 import camera.Camera;
 import inputs.JoyStickListener;
 import inputs.KeyListener;
+import inputs.MouseListener;
 import lighting.InfiniteLight;
 import lighting.Light;
 import models.RenderModel;
@@ -58,7 +59,7 @@ public class BoidScene extends Scene {
         Shader fragmentShader = new Shader(GL_FRAGMENT_SHADER, new File("fragment.glsl", File.SHADER_FILE));
         fragmentShader.passShaderInfoToGPU();
         super.pipelineShaderProgram = new PipelineShaderProgram();
-        String[] inVariables = new String[] {"pos", "texCoords", "normal"};
+        String[] inVariables = new String[]{"pos", "texCoords", "normal"};
         super.pipelineShaderProgram.prepareProgram(inVariables, vertexShader, fragmentShader);
         initUniforms();
     }
@@ -121,15 +122,24 @@ public class BoidScene extends Scene {
         if (JoyStickListener.getButtonPress(GLFW_GAMEPAD_BUTTON_A) || KeyListener.isKeyPressed(GLFW_KEY_UP)) {
             Camera.move(-1);
         }
-        if (JoyStickListener.getButtonPress(GLFW_GAMEPAD_BUTTON_B)|| KeyListener.isKeyPressed(GLFW_KEY_DOWN)) {
+        if (JoyStickListener.getButtonPress(GLFW_GAMEPAD_BUTTON_B) || KeyListener.isKeyPressed(GLFW_KEY_DOWN)) {
             Camera.move(1);
         }
         if (Math.abs(JoyStickListener.getAxis(GLFW_GAMEPAD_AXIS_LEFT_X)) > 0.1) {
             Camera.changeYaw(-JoyStickListener.getAxis(GLFW_GAMEPAD_AXIS_LEFT_X) / 10);
+
+        } else if (Math.abs(MouseListener.getDx()) > 0.1) {
+            float delta = MouseListener.getDx() / 25;
+            Camera.changeYaw(delta);
         }
         if (Math.abs(JoyStickListener.getAxis(GLFW_GAMEPAD_AXIS_LEFT_Y)) > 0.1) {
             Camera.changePitch(-JoyStickListener.getAxis(GLFW_GAMEPAD_AXIS_LEFT_Y) / 10);
+        } else if (Math.abs(MouseListener.getDy()) > 0.1) {
+            float delta = -MouseListener.getDy() / 25;
+            Camera.changePitch(delta);
         }
+
+        MouseListener.endFrame();
     }
 
     @Override

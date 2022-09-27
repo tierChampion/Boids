@@ -122,11 +122,6 @@ public class Camera {
     }
     public static void changePitch(float dPitch) {
         getCamera().pitch += dPitch;
-        if (getCamera().pitch > Math.PI - 0.05) {
-            getCamera().pitch = (float) (Math.PI - 0.05);
-        } else if (getCamera().pitch < -(Math.PI - 0.05)) {
-            getCamera().pitch = (float) (-Math.PI + 0.05);
-        }
     }
     public static void changeYaw(float dYaw) {
         getCamera().yaw += dYaw;
