@@ -11,6 +11,10 @@ public class UniformSampler extends Uniform {
         super(name);
     }
 
+    /**
+     * Load uniform texture location
+     * @param textureUnit sampler2D unit to load
+     */
     public void loadTextureUnit(int textureUnit) {
         if (!this.used || currentValue != textureUnit) {
             glUniform1i(super.getLocation(), textureUnit);

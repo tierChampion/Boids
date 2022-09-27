@@ -5,8 +5,8 @@ import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
-/*
-    VERTEX_ARRAY_OBJECT
+/**
+ * Vertex array object. Contains both the vertex data and the vertex indices
  */
 public class Vao {
 
@@ -19,11 +19,19 @@ public class Vao {
         bind();
     }
 
+    /**
+     * Set the data of the Vao.
+     * @param vertexData Raw vertex data
+     * @param indices Vertex indices
+     */
     public void storeData(float[] vertexData, int[] indices) {
         this.vbo = new Vbo(vertexData);
         this.ebo = new Ebo(indices);
     }
 
+    /**
+     * Define the memory layout of the buffers
+     */
     public void generateVertexPointers() {
         int positionSize = 3;
         int textureSize = 2;
@@ -44,26 +52,31 @@ public class Vao {
         enableVertexAttributes(0, 1, 2);
     }
 
+    ////////////////////////////
+    // ENABLE AND DISABLE VAO //
+    ////////////////////////////
+
     public void enableVertexAttributes(int... indexes) {
         for (int index : indexes) {
             glEnableVertexAttribArray(index);
         }
     }
-
     public void disableVertexAttributes(int... indexes) {
         for (int index : indexes) {
             glDisableVertexAttribArray(index);
         }
     }
-
     public void bind() {
         glBindVertexArray(this.vaoID);
     }
-
     public void unbind() {
         glBindVertexArray(0);
     }
 
+    /**
+     * Get vertex count in the vao
+     * @return size of ebo
+     */
     public int getDrawCount() {
         return this.ebo.getLength();
     }

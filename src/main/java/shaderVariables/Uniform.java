@@ -2,10 +2,18 @@ package shaderVariables;
 
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 
+/**
+ * Generic uniform variable. A uniform variable is essentially a constant for shaders.
+ */
 public abstract class Uniform {
 
     private static final int NOT_FOUND = -1;
 
+    //////////////////////////////////////////////
+    // VARIABLES:                               //
+    // NAME: NAME OF THE VARIABLE IN THE SHADER //
+    // LOCATION: POINTER TO THE SHADER VARIABLE //
+    //////////////////////////////////////////////
     private String name;
     private int location;
 
@@ -13,6 +21,10 @@ public abstract class Uniform {
         this.name = name;
     }
 
+    /**
+     * Get a pointer to the shader uniform variable
+     * @param programID shader program
+     */
     public void loadUniformToShader(int programID) {
         this.location = glGetUniformLocation(programID, this.name);
         if (this.location == NOT_FOUND) {
@@ -27,5 +39,4 @@ public abstract class Uniform {
     protected int getLocation() {
         return this.location;
     }
-
 }

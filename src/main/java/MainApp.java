@@ -4,20 +4,10 @@ public class MainApp {
 
     /**
      * TODO:
-     * Refactor (remove constants if possible)
-     * remove some functionnalities that aren't working (compute shaders / ray marching) - not gonna work on that ever
-     *      again and way to hard to fix
-     * add comments
      *
      * make paper airplane model
-     *
-     * MODELS DONE COMMENTING
-     * BOIDS DONE
-     * WINDOW DONE
-     * UTILS DONE
-     * CAMERA DONE
-     *
-     * @param args
+     * clean up the code for better usability (inputs for both controller and keyboard/mouse)
+     * especially in BoidScene.java and Window.java
      */
 
     public static void main(String[] args) {

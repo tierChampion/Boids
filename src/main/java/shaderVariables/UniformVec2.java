@@ -12,7 +12,12 @@ public class UniformVec2 extends Uniform {
         super(name);
     }
 
-    public void loadVec2(float x, float y, float z) {
+    /**
+     * Load Vector2f to uniform variable
+     * @param  x
+     * @param  y
+     */
+    public void loadVec2(float x, float y) {
         if (!this.used || currentX != x || currentY != y) {
             glUniform2f(super.getLocation(), x, y);
             used = true;

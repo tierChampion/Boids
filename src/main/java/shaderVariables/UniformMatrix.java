@@ -15,6 +15,10 @@ public class UniformMatrix extends Uniform {
         super(name);
     }
 
+    /**
+     * Load matrix to uniform variable
+     * @param matrix uniform value
+     */
     public void loadMatrix(Matrix4f matrix) {
         matrix.get(currentValues);
         glUniformMatrix4fv(super.getLocation(), false, currentValues);

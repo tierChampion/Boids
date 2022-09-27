@@ -11,6 +11,10 @@ public class UniformFloat extends Uniform {
         super(name);
     }
 
+    /**
+     * Load float value to uniform variable
+     * @param value float value
+     */
     public void loadFloat(float value) {
         if (!used || currentValue != value) {
             glUniform1f(super.getLocation(), value);

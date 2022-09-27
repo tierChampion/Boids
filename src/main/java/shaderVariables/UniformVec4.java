@@ -14,6 +14,13 @@ public class UniformVec4 extends Uniform {
         super(name);
     }
 
+    /**
+     * Load Vector4f to uniform variable
+     * @param x
+     * @param y
+     * @param z
+     * @param w
+     */
     public void loadVec4(float x, float y, float z, float w) {
         if (!this.used || currentX != x || currentY != y || currentZ != z || currentW != w) {
             glUniform4f(super.getLocation(), x, y, z, w);
@@ -21,7 +28,7 @@ public class UniformVec4 extends Uniform {
             currentX = x;
             currentY = y;
             currentZ = z;
+            currentW = w;
         }
     }
-
 }

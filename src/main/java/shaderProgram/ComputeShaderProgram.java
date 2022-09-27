@@ -6,7 +6,7 @@ import static org.lwjgl.opengl.GL43.GL_SHADER_STORAGE_BARRIER_BIT;
 import static org.lwjgl.opengl.GL43.glDispatchCompute;
 
 /**
- *
+ * Shader program with compute shader. Deprecated and not tested
  */
 public class ComputeShaderProgram extends ShaderProgram {
 

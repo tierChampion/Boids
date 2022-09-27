@@ -8,6 +8,9 @@ import java.util.List;
 import static org.lwjgl.opengl.GL11.GL_FALSE;
 import static org.lwjgl.opengl.GL20.*;
 
+/**
+ * Generic shader program. A shader program is a program run on the gpu that contains one or more shaders
+ */
 public abstract class ShaderProgram {
 
     protected final int shaderProgramId;
@@ -18,6 +21,10 @@ public abstract class ShaderProgram {
         this.shaderProgramId = glCreateProgram();
     }
 
+    /**
+     * List a lot of shaders to create a program
+     * @param shaders list of shaders to link
+     */
     public void linkProgram(Shader... shaders) {
         // Attach each shaders to the program
         for (Shader shader : shaders) {
@@ -33,6 +40,10 @@ public abstract class ShaderProgram {
         }
     }
 
+    /**
+     * Prepare the inputs of the program
+     * @param inVariables inputs of the program
+     */
     private void bindAttributes(String[] inVariables) {
         // Bind all the in variables for use
         for (int i = 0; i < inVariables.length; i++) {
@@ -40,6 +51,10 @@ public abstract class ShaderProgram {
         }
     }
 
+    /**
+     * Set values of the uniform variables inside the program
+     * @param uniforms list of shader constants
+     */
     public void storeUniformLocations(Uniform... uniforms) {
         for (Uniform uniform : uniforms) {
             uniform.loadUniformToShader(this.shaderProgramId);
@@ -48,6 +63,11 @@ public abstract class ShaderProgram {
         glValidateProgram(this.shaderProgramId);
     }
 
+    /**
+     * Get a shader constant by name
+     * @param name name of the constant
+     * @return uniform variable
+     */
     public Uniform getUniformVariable(String name) {
         for (Uniform uniform : this.uniforms) {
             if (uniform.getName().equalsIgnoreCase(name)) {
@@ -57,18 +77,22 @@ public abstract class ShaderProgram {
         return null;
     }
 
+    /////////////////////////////
+    // CONTROLS OF THE PROGRAM //
+    /////////////////////////////
     public void bind() {
         glUseProgram(this.shaderProgramId);
     }
-
     public void unbind() {
         glUseProgram(0);
     }
-
     public void delete() {
         glDeleteProgram(this.shaderProgramId);
     }
 
+    /**
+     * Check if the program was properly linked
+     */
     protected void checkForSuccess() {
         int success = glGetProgrami(this.shaderProgramId, GL_LINK_STATUS);
         if (success == GL_FALSE) {
@@ -78,5 +102,4 @@ public abstract class ShaderProgram {
             assert false : "";
         }
     }
-
 }

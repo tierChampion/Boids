@@ -2,10 +2,13 @@ package lighting;
 
 import org.joml.Vector3f;
 
+/**
+ * Infinite ambient light
+ */
 public class InfiniteLight extends Light {
 
+    // Range of effect
     private static final int INFINITE_DISTANCE = 1000;
-
 
     public InfiniteLight(Vector3f lightDirection) {
         super(lightDirection.normalize().mul(INFINITE_DISTANCE), new Vector3f(1, 0, 0));

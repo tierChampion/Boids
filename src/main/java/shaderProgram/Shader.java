@@ -8,6 +8,9 @@ import java.io.IOException;
 
 import static org.lwjgl.opengl.GL20.*;
 
+/**
+ * Small program that gets run on the gpu by OpenGL
+ */
 public class Shader {
 
     private int shaderID;
@@ -21,6 +24,11 @@ public class Shader {
         this.sourceCode = readFile(file);
     }
 
+    /**
+     * Read glsl shader file
+     * @param file shader to read
+     * @return text inside the file
+     */
     private String readFile(File file) {
         StringBuilder sourceCode = new StringBuilder();
         try {
@@ -38,6 +46,9 @@ public class Shader {
         return sourceCode.toString();
     }
 
+    /**
+     * Compile and prepare shaders
+     */
     public void passShaderInfoToGPU() {
         // Load pointer for shader
         this.shaderID = glCreateShader(this.type);

@@ -25,6 +25,9 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL20.GL_FRAGMENT_SHADER;
 import static org.lwjgl.opengl.GL20.GL_VERTEX_SHADER;
 
+/**
+ * Scene for simple boid flight
+ */
 public class BoidScene extends Scene {
 
     private static final int BOID_COUNT = 200;
@@ -33,15 +36,18 @@ public class BoidScene extends Scene {
     private static final float AVOID_FACTOR = 1;
 
     private static final Vector3f WORLD_BOUNDS = new Vector3f(20);
-    private OcTree<Boid> newBoids;
+    private OcTree<Boid> tree;
 
     public BoidScene() {
         super();
     }
 
+    /**
+     * Move the boids
+     */
     private void updateFlock() {
         for (Boid boid : super.models) {
-            boid.update(newBoids);
+            boid.update(tree);
         }
     }
 
@@ -67,7 +73,7 @@ public class BoidScene extends Scene {
             super.models.get(i).placeRandomlyInWorld();
         }
 
-        this.newBoids = new OcTree<>(super.models, 1, new Vector3f(0), WORLD_BOUNDS);
+        this.tree = new OcTree<>(super.models, 1, new Vector3f(0), WORLD_BOUNDS);
 
         List<Light> lights = new ArrayList<>();
         lights.add(new InfiniteLight(new Vector3f(1000, 1000, 1000)));
@@ -96,7 +102,7 @@ public class BoidScene extends Scene {
     @Override
     protected void updateUniforms() {
 
-        this.newBoids.update();
+        this.tree.update();
 
         ((UniformMatrix) this.pipelineShaderProgram.getUniformVariable("viewMatrix"))
                 .loadMatrix(Camera.getViewMatrix());

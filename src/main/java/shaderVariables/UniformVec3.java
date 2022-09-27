@@ -15,6 +15,12 @@ public class UniformVec3 extends Uniform {
         super(name);
     }
 
+    /**
+     * Load Vector3f to uniform variable
+     * @param x
+     * @param y
+     * @param z
+     */
     public void loadVec3(float x, float y, float z) {
         if (!this.used || currentX != x || currentY != y || currentZ != z) {
             glUniform3f(super.getLocation(), x, y, z);
@@ -25,6 +31,10 @@ public class UniformVec3 extends Uniform {
         }
     }
 
+    /**
+     * Load Vector3f to uniform variable
+     * @param vector
+     */
     public void loadVec3(Vector3f vector) {
         loadVec3(vector.x, vector.y, vector.z);
     }

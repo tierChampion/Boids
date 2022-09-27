@@ -6,8 +6,8 @@ import java.nio.IntBuffer;
 
 import static org.lwjgl.opengl.GL15.*;
 
-/*
-    ELEMENTS_BUFFER_OBJECT
+/**
+ * Element buffer object. Stores the vertex indices
  */
 public class Ebo {
 

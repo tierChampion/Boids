@@ -10,10 +10,8 @@ public abstract class ShaderBufferObject {
 
     public int id; // to make proteccted
     protected FloatBuffer buffer;
-    protected final BufferDataType type;
 
     public ShaderBufferObject(float[] data) {
-        this.type = BufferDataType.FLOAT_BUFFER;
         this.id = glGenBuffers();
 
         this.buffer = BufferUtils.createFloatBuffer(data.length);
