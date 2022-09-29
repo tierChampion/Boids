@@ -17,13 +17,13 @@ import java.util.Random;
  */
 public class Boid extends RenderModel {
 
-    private static float MODEL_SCALE;
+    private static float MODEL_SCALE = 1;
 
-    private static Vector3f WORLD_DIMENSIONS = new Vector3f(20);
-    private static float MAX_SPEED = 8;
-    private static float MIN_SPEED = 2;
-    private static float MAX_FORCE = 3;
-    private static float TIME_STEP = 1 / 60.0f;
+    private static Vector3f WORLD_DIMENSIONS = new Vector3f(1);
+    private static float MAX_SPEED = 1;
+    private static float MIN_SPEED = 1;
+    private static float MAX_FORCE = 1;
+    private static float TIME_STEP = 1;
 
     private static float ALIGNMENT_FACTOR = 1;
     private static float COHESION_FACTOR = 1;
@@ -32,8 +32,8 @@ public class Boid extends RenderModel {
     private final Vector3f position;
     private final Vector3f velocity;
 
-    private float viewRadius;
-    private float avoidRadius;
+    private final float viewRadius;
+    private final float avoidRadius;
 
     private Matrix4f currentModelMatrix = null;
 
@@ -46,12 +46,13 @@ public class Boid extends RenderModel {
      * @param avoidRadius distance at which to avoid collisions
      */
     public Boid(
+            File modelFile,
             File textureFile,
             float shineDamper,
             float reflectivity,
             float viewRadius,
             float avoidRadius) {
-        super(new File("pyramid.obj", File.OBJ_FILE), textureFile, shineDamper, reflectivity);
+        super(modelFile, textureFile, shineDamper, reflectivity);
         this.position = new Vector3f();
         this.velocity = new Vector3f();
         this.viewRadius = viewRadius;

@@ -16,7 +16,7 @@ public class Camera {
     // Angle up and down
     private float pitch = 0;
     // Angle side to side
-    private float yaw = 0;
+    private float yaw = 0; // doesnt really work
     // Angle of field of view
     private float fov = 60f;
     // Distance to far plane
@@ -122,9 +122,11 @@ public class Camera {
     }
     public static void changePitch(float dPitch) {
         getCamera().pitch += dPitch;
+        System.out.println("p : " + getCamera().pitch);
     }
     public static void changeYaw(float dYaw) {
         getCamera().yaw += dYaw;
+        System.out.println("y : " + getCamera().yaw);
     }
     public static void changeProjection() {
         getCamera().projection = !getCamera().projection;

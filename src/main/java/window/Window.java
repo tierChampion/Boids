@@ -31,21 +31,7 @@ public class Window {
         this.width = width;
         this.height = height;
         this.title = title;
-    }
-
-    /**
-     * Set the current. Currently useless since there is only one scene.
-     * @param newScene Scene to switch to
-     */
-    public static void changeScene(int newScene) {
-        switch (newScene) {
-            case 0 -> {
-                currentScene = new BoidScene();
-            }
-            default -> {
-                assert false : "Unknown scene";
-            }
-        }
+        init();
     }
 
     /**
@@ -65,12 +51,12 @@ public class Window {
 
     /**
      * Launches Opengl with the desired scene
-     * @param sceneType Scene to show
+     * @param scene Scene to simulate
      */
-    public void run(int sceneType) {
+    public void run(Scene scene) {
         System.out.println("LWJGL version : "  + Version.getVersion());
 
-        init(sceneType);
+        currentScene = scene;
         loop();
 
         // Free the memory
@@ -81,7 +67,7 @@ public class Window {
         glfwSetErrorCallback(null);
     }
 
-    private void init(int sceneType) {
+    private void init() {
         // Setup an error callback for asynchronicity
         GLFWErrorCallback.createPrint(System.err).set();
 
@@ -125,8 +111,6 @@ public class Window {
 
         // Enables OpenGL to use the current GLFW window
         GL.createCapabilities();
-
-        Window.changeScene(sceneType);
     }
 
     /**

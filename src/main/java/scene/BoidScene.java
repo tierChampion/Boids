@@ -6,8 +6,6 @@ import camera.Camera;
 import inputs.JoyStickListener;
 import inputs.KeyListener;
 import inputs.MouseListener;
-import lighting.InfiniteLight;
-import lighting.Light;
 import models.RenderModel;
 import org.joml.Vector3f;
 import shaderProgram.PipelineShaderProgram;
@@ -19,9 +17,6 @@ import shaderVariables.UniformVec3;
 import utils.File;
 import utils.OpenGlUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL20.GL_FRAGMENT_SHADER;
 import static org.lwjgl.opengl.GL20.GL_VERTEX_SHADER;
@@ -31,16 +26,43 @@ import static org.lwjgl.opengl.GL20.GL_VERTEX_SHADER;
  */
 public class BoidScene extends Scene {
 
-    private static final int BOID_COUNT = 200;
-    private static final float ALIGN_FACTOR = 1;
-    private static final float COHESION_FACTOR = 1;
-    private static final float AVOID_FACTOR = 1;
+    private static final String VERTEX_SHADER = "vertex.glsl";
+    private static final String FRAGMENT_SHADER = "fragment.glsl";
 
-    private static final Vector3f WORLD_BOUNDS = new Vector3f(20);
     private OcTree<Boid> tree;
 
-    public BoidScene() {
-        super();
+    /**
+     * General scene for the 3D boid simulation.
+     * Use of a traditional shader pipeline (vertex -> fragment)
+     * and on cpu calculations for the boid dynamics
+     *
+     * @param count Number of boids in the scene
+     * @param bounds World dimensions of the scene
+     * @param modelName Name of the boid 3D model
+     * @param textureName Name of the boid texture
+     * @param shine Shine damper of the material of the model
+     * @param reflectivity Reflectivity of the material of the model
+     * @param timeStep Time per frame
+     * @param lightDir Direction of the infinite light
+     * @param modelScale Scale of the 3D model
+     * @param viewRad Distance at which boids are considered neighbours
+     * @param avoidRad Distance at which boids are considered too close
+     * @param maxSpeed Maximum speed of the boids
+     * @param minSpeed Minimum speed of the boids
+     * @param maxForce Maximum steering force of the boids
+     * @param align Strength of the alignment behaviour of the boids
+     * @param cohesion Strength of the cohesion behaviour of the boids
+     * @param avoid Strength of the avoidance behaviour of the boids
+     */
+    public BoidScene(int count, Vector3f bounds, String modelName, String textureName, float shine, float reflectivity,
+                     float timeStep, Vector3f lightDir, float modelScale, float viewRad, float avoidRad,
+                     float maxSpeed, float minSpeed, float maxForce,
+                     float align, float cohesion, float avoid) {
+
+        super(count, bounds, modelName, textureName, shine, reflectivity,
+                timeStep, lightDir, modelScale, viewRad, avoidRad,
+                maxSpeed, minSpeed, maxForce,
+                align, cohesion, avoid);
     }
 
     /**
@@ -54,9 +76,9 @@ public class BoidScene extends Scene {
 
     @Override
     protected void initShaderProgram() {
-        Shader vertexShader = new Shader(GL_VERTEX_SHADER, new File("vertex.glsl", File.SHADER_FILE));
+        Shader vertexShader = new Shader(GL_VERTEX_SHADER, new File(VERTEX_SHADER, File.SHADER_FILE));
         vertexShader.passShaderInfoToGPU();
-        Shader fragmentShader = new Shader(GL_FRAGMENT_SHADER, new File("fragment.glsl", File.SHADER_FILE));
+        Shader fragmentShader = new Shader(GL_FRAGMENT_SHADER, new File(FRAGMENT_SHADER, File.SHADER_FILE));
         fragmentShader.passShaderInfoToGPU();
         super.pipelineShaderProgram = new PipelineShaderProgram();
         String[] inVariables = new String[]{"pos", "texCoords", "normal"};
@@ -65,20 +87,16 @@ public class BoidScene extends Scene {
     }
 
     @Override
-    protected void initAssets() {
-        Boid.setSettings(0.2f, WORLD_BOUNDS, 8, 2, 3, 1 / 60.0f,
-                ALIGN_FACTOR, COHESION_FACTOR, AVOID_FACTOR);
-        for (int i = 0; i < BOID_COUNT; i++) {
-            super.models.add(new Boid(new File("testTexture.png", File.TEXTURE_FILE),
-                    0.0f, 0.0f, 8f, 3f));
-            super.models.get(i).placeRandomlyInWorld();
-        }
+    protected void initAssets(int count, Vector3f bounds, String modelName, String textureName, float shine, float reflectivity,
+                              float timeStep, Vector3f lightDir, float modelScale, float viewRad, float avoidRad,
+                              float maxSpeed, float minSpeed, float maxForce,
+                              float align, float cohesion, float avoid) {
 
-        this.tree = new OcTree<>(super.models, 1, new Vector3f(0), WORLD_BOUNDS);
-
-        List<Light> lights = new ArrayList<>();
-        lights.add(new InfiniteLight(new Vector3f(1000, 1000, 1000)));
-        super.lights = lights;
+        super.initAssets(count, bounds, modelName, textureName, shine, reflectivity,
+                timeStep, lightDir, modelScale, viewRad, avoidRad,
+                maxSpeed, minSpeed, maxForce,
+                align, cohesion, avoid);
+        this.tree = new OcTree<>(super.models, 1, new Vector3f(0), bounds);
     }
 
     @Override
@@ -131,16 +149,16 @@ public class BoidScene extends Scene {
         // HAVE A MINIMUM GIVE TO REMOVE DEAD-INPUTS //
         ///////////////////////////////////////////////
         if (Math.abs(JoyStickListener.getAxis(GLFW_GAMEPAD_AXIS_LEFT_X)) > 0.1) {
-            Camera.changeYaw(-JoyStickListener.getAxis(GLFW_GAMEPAD_AXIS_LEFT_X) / 10);
+            Camera.changeYaw(JoyStickListener.getAxis(GLFW_GAMEPAD_AXIS_LEFT_X) / 10);
 
         } else if (Math.abs(MouseListener.getDx()) > 0.1) {
             float delta = MouseListener.getDx() / 25;
             Camera.changeYaw(delta);
         }
         if (Math.abs(JoyStickListener.getAxis(GLFW_GAMEPAD_AXIS_LEFT_Y)) > 0.1) {
-            Camera.changePitch(-JoyStickListener.getAxis(GLFW_GAMEPAD_AXIS_LEFT_Y) / 10);
+            Camera.changePitch(JoyStickListener.getAxis(GLFW_GAMEPAD_AXIS_LEFT_Y) / 10);
         } else if (Math.abs(MouseListener.getDy()) > 0.1) {
-            float delta = -MouseListener.getDy() / 25;
+            float delta = MouseListener.getDy() / 25;
             Camera.changePitch(delta);
         }
 
