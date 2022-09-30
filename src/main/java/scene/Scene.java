@@ -1,6 +1,7 @@
 package scene;
 
 import boids.Boid;
+import camera.Camera;
 import dataStructures.spacial.OcTree;
 import lighting.InfiniteLight;
 import lighting.Light;
@@ -69,6 +70,8 @@ public abstract class Scene {
                               float align, float cohesion, float avoid) {
         Boid.setSettings(modelScale, bounds, maxSpeed, minSpeed, maxForce, timeStep,
                 align, cohesion, avoid);
+
+        Camera.move(bounds.x / 2, bounds.y / 2, cameraDist);
 
         File modelFile = new File(modelName, File.OBJ_FILE);
         File textureFile = new File(textureName, File.TEXTURE_FILE);

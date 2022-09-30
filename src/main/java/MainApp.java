@@ -7,18 +7,6 @@ import window.Window;
 
 public class MainApp {
 
-    /**
-     * TODO
-     *
-     * Fix initial camera orientation so it faces the middle of the boids bounds.
-     * Maybe make the light position equal to the cameras (this would make everything always visible and
-     * keep the point light distance property)
-     *
-     * Make two camera modes:
-     * A flying one with full control
-     * And a rotating one where the camera is always looking at the origin.
-     */
-
     /*
     VISUAL PARAMETERS
      */
