@@ -12,11 +12,11 @@ public class Camera {
     public static final boolean ORTHOGRAPHIC_PROJECTION = false;
     public static final boolean PERSPECTIVE_PROJECTION = true;
 
-    private Vector3f position = new Vector3f(10, 10, 40);
+    private final Vector3f position = new Vector3f(0);
     // Angle up and down
-    private float pitch = 0;
+    private float pitch = 0f;
     // Angle side to side
-    private float yaw = 0; // doesnt really work
+    private float yaw = 0f;
     // Angle of field of view
     private float fov = 60f;
     // Distance to far plane
@@ -121,12 +121,11 @@ public class Camera {
         getCamera().projectionChanged = true;
     }
     public static void changePitch(float dPitch) {
-        getCamera().pitch += dPitch;
-        System.out.println("p : " + getCamera().pitch);
+
+        getCamera().pitch = (float) Math.max(Math.min(getCamera().pitch + dPitch, Math.PI / 2), -Math.PI / 2);
     }
     public static void changeYaw(float dYaw) {
         getCamera().yaw += dYaw;
-        System.out.println("y : " + getCamera().yaw);
     }
     public static void changeProjection() {
         getCamera().projection = !getCamera().projection;

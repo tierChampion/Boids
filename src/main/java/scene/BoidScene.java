@@ -6,6 +6,8 @@ import camera.Camera;
 import inputs.JoyStickListener;
 import inputs.KeyListener;
 import inputs.MouseListener;
+import lighting.Light;
+import lighting.PointLight;
 import models.RenderModel;
 import org.joml.Vector3f;
 import shaderProgram.PipelineShaderProgram;
@@ -16,6 +18,9 @@ import shaderVariables.UniformSampler;
 import shaderVariables.UniformVec3;
 import utils.File;
 import utils.OpenGlUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL20.GL_FRAGMENT_SHADER;
@@ -43,7 +48,7 @@ public class BoidScene extends Scene {
      * @param shine Shine damper of the material of the model
      * @param reflectivity Reflectivity of the material of the model
      * @param timeStep Time per frame
-     * @param lightDir Direction of the infinite light
+     * @param lightPos Position of the infinite light
      * @param modelScale Scale of the 3D model
      * @param viewRad Distance at which boids are considered neighbours
      * @param avoidRad Distance at which boids are considered too close
@@ -54,13 +59,13 @@ public class BoidScene extends Scene {
      * @param cohesion Strength of the cohesion behaviour of the boids
      * @param avoid Strength of the avoidance behaviour of the boids
      */
-    public BoidScene(int count, Vector3f bounds, String modelName, String textureName, float shine, float reflectivity,
-                     float timeStep, Vector3f lightDir, float modelScale, float viewRad, float avoidRad,
+    public BoidScene(float cameraDist, int count, Vector3f bounds, String modelName, String textureName, float shine, float reflectivity,
+                     float timeStep, Vector3f lightPos, float modelScale, float viewRad, float avoidRad,
                      float maxSpeed, float minSpeed, float maxForce,
                      float align, float cohesion, float avoid) {
 
-        super(count, bounds, modelName, textureName, shine, reflectivity,
-                timeStep, lightDir, modelScale, viewRad, avoidRad,
+        super(cameraDist, count, bounds, modelName, textureName, shine, reflectivity,
+                timeStep, lightPos, modelScale, viewRad, avoidRad,
                 maxSpeed, minSpeed, maxForce,
                 align, cohesion, avoid);
     }
@@ -87,16 +92,20 @@ public class BoidScene extends Scene {
     }
 
     @Override
-    protected void initAssets(int count, Vector3f bounds, String modelName, String textureName, float shine, float reflectivity,
-                              float timeStep, Vector3f lightDir, float modelScale, float viewRad, float avoidRad,
+    protected void initAssets(float cameraDist, int count, Vector3f bounds, String modelName, String textureName, float shine, float reflectivity,
+                              float timeStep, Vector3f lightPos, float modelScale, float viewRad, float avoidRad,
                               float maxSpeed, float minSpeed, float maxForce,
                               float align, float cohesion, float avoid) {
 
-        super.initAssets(count, bounds, modelName, textureName, shine, reflectivity,
-                timeStep, lightDir, modelScale, viewRad, avoidRad,
+        super.initAssets(cameraDist, count, bounds, modelName, textureName, shine, reflectivity,
+                timeStep, lightPos, modelScale, viewRad, avoidRad,
                 maxSpeed, minSpeed, maxForce,
                 align, cohesion, avoid);
         this.tree = new OcTree<>(super.models, 1, new Vector3f(0), bounds);
+
+        List<Light> lights = new ArrayList<>();
+        lights.add(new PointLight(lightPos, new Vector3f(0f, 0f, 0.001f)));
+        super.lights = lights;
     }
 
     @Override
@@ -149,17 +158,17 @@ public class BoidScene extends Scene {
         // HAVE A MINIMUM GIVE TO REMOVE DEAD-INPUTS //
         ///////////////////////////////////////////////
         if (Math.abs(JoyStickListener.getAxis(GLFW_GAMEPAD_AXIS_LEFT_X)) > 0.1) {
-            Camera.changeYaw(JoyStickListener.getAxis(GLFW_GAMEPAD_AXIS_LEFT_X) / 10);
+            Camera.changeYaw(JoyStickListener.getAxis(GLFW_GAMEPAD_AXIS_LEFT_X) / 20);
 
         } else if (Math.abs(MouseListener.getDx()) > 0.1) {
-            float delta = MouseListener.getDx() / 25;
-            Camera.changeYaw(delta);
+            float delta = MouseListener.getDx() / 250;
+            Camera.changeYaw(-delta);
         }
         if (Math.abs(JoyStickListener.getAxis(GLFW_GAMEPAD_AXIS_LEFT_Y)) > 0.1) {
-            Camera.changePitch(JoyStickListener.getAxis(GLFW_GAMEPAD_AXIS_LEFT_Y) / 10);
+            Camera.changePitch(JoyStickListener.getAxis(GLFW_GAMEPAD_AXIS_LEFT_Y) / 20);
         } else if (Math.abs(MouseListener.getDy()) > 0.1) {
-            float delta = MouseListener.getDy() / 25;
-            Camera.changePitch(delta);
+            float delta = MouseListener.getDy() / 250;
+            Camera.changePitch(-delta);
         }
 
         MouseListener.endFrame();

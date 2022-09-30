@@ -41,10 +41,17 @@ public class MouseListener {
      */
     public static void cursorPositionCallback(long window, double xPos, double yPos) {
 
-        get().lastX = get().xPos;
-        instance.lastY = instance.yPos;
+        // Initial setting of the mouse
+        if (get().xPos == 0 && get().lastX == 0 && get().yPos == 0 && get().lastY == 0) {
+            instance.lastX = xPos;
+            instance.lastY = yPos;
+        } else {
+            instance.lastX = instance.xPos;
+            instance.lastY = instance.yPos;
+        }
         instance.xPos = xPos;
         instance.yPos = yPos;
+
         // If any button is pressed while the position is changing, it is dragging
         instance.isDragging = false;
         for (boolean button : instance.mouseButtonPressed) {
